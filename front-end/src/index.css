@@ -1,13 +1,30 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background: black;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+    width: 50%;
+    margin: 3% auto 3% auto;
+}
+
+.word-progress {
+    font-size: 50px;
+    margin-top: 6%;
+    line-height: 50px;
+}
+
+.input-dashboard {
+    text-align: center;
+}
+
+.input-dashboard button.guess-button {
+    margin: 5px;
+}
+
+.game-over {
+    text-align: center;
+}
+
+.game-over span {
+    margin-right: 10px;
 }
