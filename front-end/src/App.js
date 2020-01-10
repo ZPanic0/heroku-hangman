@@ -1,86 +1,63 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
-import HangmanDisplay from './components/HangmanDisplay'
-import WordProgress from './components/WordProgress'
-import InputDashboard from './components/InputDashboard'
-import GameOver from './components/GameOver'
-import maskText from './utilities/maskText'
+import { Menu } from 'semantic-ui-react'
+import GameBoard from './components/GameBoard'
+import StatisticsBoard from './components/StatisticsBoard'
 import LetterStatistics from './utilities/LetterStatistics'
 
 export default class App extends Component {
   letterStatistics = new LetterStatistics()
   state = {
-    guessedCharacters: [],
-    wrongCount: 0,
-    gameOver: false,
-    playerWon: false
+    activeTab: 'game',
+    letterStatistics: {}
   }
 
   constructor(props) {
     super(props)
 
-    this.onLetterClick = this.onLetterClick.bind(this)
-    this.onResetClick = this.onResetClick.bind(this)
+    this.setActiveTab = this.setActiveTab.bind(this)
   }
 
-  onLetterClick(letter) {
-    this.letterStatistics.notify(letter)
-
-    this.setState(prevState => {
-      const nextState = {
-        guessedCharacters: [...prevState.guessedCharacters, letter]
-      }
-
-      nextState.playerWon = this.props.solution === maskText(this.props.solution, nextState.guessedCharacters)
-
-      if (!this.props.solution.includes(letter)) {
-        nextState.wrongCount = prevState.wrongCount + 1
-
-        nextState.gameOver = nextState.wrongCount === 6
-      }
-
-      return nextState
-    })
+  async componentDidMount() {
+    this.setState({ letterStatistics: await this.letterStatistics.get() })
   }
 
-  onResetClick() {
-    this.setState({
-      guessedCharacters: [],
-      wrongCount: 0,
-      gameOver: false
-    })
+  async setActiveTab(event, element) {
+    const nextState = { activeTab: element.name }
+
+    if (element.name === 'stats') {
+      nextState.letterStatistics = await this.letterStatistics.get()
+    }
+
+    this.setState(nextState)
   }
 
   render() {
-    return <Grid>
-      <Grid.Row>
-        <Grid.Column width={13}>
-          <WordProgress
-            guessedCharacters={this.state.guessedCharacters}
-            solution={this.props.solution} />
-        </Grid.Column>
-        <Grid.Column width={3}>
-          <HangmanDisplay index={this.state.wrongCount} />
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
-        <Grid.Column width={16}>
-          <InputDashboard
-            disabled={this.state.gameOver || this.state.playerWon}
-            guessedCharacters={this.state.guessedCharacters}
-            onLetterClick={this.onLetterClick}
-          />
-        </Grid.Column>
-      </Grid.Row>
-      {(this.state.gameOver || this.state.playerWon) &&
-        <Grid.Row>
-          <Grid.Column width={16}>
-            <GameOver
-              playerWon={this.state.playerWon}
-              onResetClick={this.onResetClick}
-            />
-          </Grid.Column>
-        </Grid.Row>}
-    </Grid>
+    const disabledStyling = { display: 'none' }
+    return <div>
+      <Menu tabular>
+        <Menu.Item
+          name='game'
+          active={this.state.activeTab === 'game'}
+          onClick={this.setActiveTab}
+        />
+        <Menu.Item
+          name='stats'
+          active={this.state.activeTab === 'stats'}
+          onClick={this.setActiveTab}
+        />
+      </Menu>
+      <GameBoard
+        style={this.state.activeTab === 'game'
+          ? {}
+          : disabledStyling}
+        solution={this.props.solution}
+      />
+      <StatisticsBoard
+        style={this.state.activeTab === 'stats'
+          ? {}
+          : disabledStyling}
+        letterStatistics={this.state.letterStatistics}
+      />
+    </div>
   }
 }

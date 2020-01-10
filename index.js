@@ -12,7 +12,12 @@ client.connect()
 
 express()
   .use(express.static(path.join(__dirname, 'front-end/build')))
-  .get('/LetterStatistics/get', async (req, res) => res.send(await client.db(process.env.DB_NAME).collection('letter-guess-statistics').find().toArray()))
+  .get('/LetterStatistics/get', async (req, res) =>
+    {
+      const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').find().toArray()
+
+      res.send(JSON.stringify(result[0]))
+    })
   .get('/LetterStatistics/update', async (req, res) => {
     if (!req.query.letter ||
       req.query.letter.length !== 1 ||
