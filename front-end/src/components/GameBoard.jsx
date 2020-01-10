@@ -44,6 +44,7 @@ export default class App extends Component {
   }
 
   onResetClick() {
+    this.props.onReset()
     this.setState({
       guessedCharacters: [],
       wrongCount: 0,

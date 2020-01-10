@@ -3,32 +3,43 @@ import { Menu, Icon } from 'semantic-ui-react'
 import GameBoard from './components/GameBoard'
 import StatisticsBoard from './components/StatisticsBoard'
 import LetterStatistics from './utilities/LetterStatistics'
+import PuzzleInput from './utilities/PuzzleInput'
 
 export default class App extends Component {
-  letterStatistics = new LetterStatistics()
+  fetchLetterStatistics = new LetterStatistics()
+  fetchPuzzleInput = new PuzzleInput()
   state = {
     activeTab: 'game',
-    letterStatistics: {}
+    letterStatistics: {},
+    solution: ''
   }
 
   constructor(props) {
     super(props)
 
     this.setActiveTab = this.setActiveTab.bind(this)
+    this.onReset = this.onReset.bind(this)
   }
 
   async componentDidMount() {
-    this.setState({ letterStatistics: await this.letterStatistics.get() })
+    this.setState({
+      letterStatistics: await this.fetchLetterStatistics.get(),
+      solution: await this.fetchPuzzleInput.get()
+    })
   }
 
   async setActiveTab(event, element) {
     const nextState = { activeTab: element.name }
 
     if (element.name === 'stats') {
-      nextState.letterStatistics = await this.letterStatistics.get()
+      nextState.letterStatistics = await this.fetchLetterStatistics.get()
     }
 
     this.setState(nextState)
+  }
+
+  async onReset() {
+    this.setState({ solution: await this.fetchPuzzleInput.get() })
   }
 
   render() {
@@ -55,7 +66,8 @@ export default class App extends Component {
         style={this.state.activeTab === 'game'
           ? {}
           : disabledStyling}
-        solution={this.props.solution}
+        solution={this.state.solution}
+        onReset={this.onReset}
       />
       <StatisticsBoard
         style={this.state.activeTab === 'stats'
