@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react'
 import GameBoard from './components/GameBoard'
 import StatisticsBoard from './components/StatisticsBoard'
 import LetterStatistics from './utilities/LetterStatistics'
@@ -45,6 +45,11 @@ export default class App extends Component {
           active={this.state.activeTab === 'stats'}
           onClick={this.setActiveTab}
         />
+        <Menu.Menu position='right'>
+          <Menu.Item href="https://github.com/ZPanic0/heroku-hangman">
+            <Icon link name='github' size='large' />
+          </Menu.Item>
+        </Menu.Menu>
       </Menu>
       <GameBoard
         style={this.state.activeTab === 'game'
