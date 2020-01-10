@@ -5,14 +5,10 @@ import WordProgress from './components/WordProgress'
 import InputDashboard from './components/InputDashboard'
 import GameOver from './components/GameOver'
 import maskText from './utilities/maskText'
+import LetterStatistics from './utilities/LetterStatistics'
 
 export default class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.onLetterClick = this.onLetterClick.bind(this)
-    this.onResetClick = this.onResetClick.bind(this)
-  }
+  letterStatistics = new LetterStatistics()
   state = {
     guessedCharacters: [],
     wrongCount: 0,
@@ -20,7 +16,16 @@ export default class App extends Component {
     playerWon: false
   }
 
+  constructor(props) {
+    super(props)
+
+    this.onLetterClick = this.onLetterClick.bind(this)
+    this.onResetClick = this.onResetClick.bind(this)
+  }
+
   onLetterClick(letter) {
+    this.letterStatistics.notify(letter)
+
     this.setState(prevState => {
       const nextState = {
         guessedCharacters: [...prevState.guessedCharacters, letter]
