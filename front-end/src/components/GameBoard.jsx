@@ -78,6 +78,7 @@ export default class App extends Component {
             <GameOver
               playerWon={this.state.playerWon}
               onResetClick={this.onResetClick}
+              solution={this.props.solution}
             />
           </Grid.Column>
         </Grid.Row>}

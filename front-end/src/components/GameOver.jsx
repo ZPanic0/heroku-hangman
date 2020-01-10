@@ -6,6 +6,7 @@ export default class GameOver extends Component {
         return <div className='game-over'>
             <span>{this.props.playerWon ? 'YOU WIN! ' : 'GAME OVER!'}</span>
             <Button onClick={this.props.onResetClick}>Play Again?</Button>
+            <div>The answer was {this.props.solution}</div>
         </div>
     }
 }
