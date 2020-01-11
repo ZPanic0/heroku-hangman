@@ -25,7 +25,7 @@ export default class App extends Component {
 
   componentDidMount() {
     document.addEventListener('keydown', ({ key }) => {
-      if (!'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.includes(key)) return
+      if (!'abcdefghijklmnopqrstuvwxyz'.includes(key)) return
 
       this.onLetterClick(key.toUpperCase())
     })
