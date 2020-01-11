@@ -23,7 +23,17 @@ export default class App extends Component {
     this.onResetClick = this.onResetClick.bind(this)
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', ({ key }) => {
+      if (!'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.includes(key)) return
+
+      this.onLetterClick(key.toUpperCase())
+    })
+  }
+
   onLetterClick(letter) {
+    if (this.state.gameOver || this.state.playerWon) return
+
     this.letterStatistics.notify(letter)
 
     this.setState(prevState => {
