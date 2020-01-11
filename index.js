@@ -14,9 +14,9 @@ client.connect()
 express()
   .use(express.static(path.join(__dirname, 'front-end/build')))
   .get('/LetterStatistics/get', async (req, res) => {
-    const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').find().toArray()
+    const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').findOne({})
 
-    res.send(JSON.stringify(result[0]))
+    res.send(JSON.stringify(result))
   })
   .get('/LetterStatistics/update', async (req, res) => {
     if (!req.query.letter ||
@@ -50,7 +50,7 @@ express()
     return res.sendStatus(200)
   })
   .get('/WinLossStatistics/get', async (req, res) => {
-    const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').findOne({})
+    const result = await client.db(process.env.DB_NAME).collection('win-loss-statistics').findOne({})
 
     res.send(JSON.stringify(result))
   })
