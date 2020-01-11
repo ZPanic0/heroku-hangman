@@ -13,12 +13,11 @@ client.connect()
 
 express()
   .use(express.static(path.join(__dirname, 'front-end/build')))
-  .get('/LetterStatistics/get', async (req, res) =>
-    {
-      const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').find().toArray()
+  .get('/LetterStatistics/get', async (req, res) => {
+    const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').find().toArray()
 
-      res.send(JSON.stringify(result[0]))
-    })
+    res.send(JSON.stringify(result[0]))
+  })
   .get('/LetterStatistics/update', async (req, res) => {
     if (!req.query.letter ||
       req.query.letter.length !== 1 ||
@@ -37,6 +36,23 @@ express()
     const word = wordBank[~~(Math.random() * (wordBank.length + 1))].toUpperCase()
 
     return res.send(word)
+  })
+  .get('/WinLossStatistics/update', async (req, res) => {
+    if (req.query.won === undefined || !req.query.won.length) {
+      return res.sendStatus(400)
+    }
+    const newValues = { $inc: {} }
+
+    newValues.$inc[req.query.won === 'true' ? 'won' : 'lost'] = 1
+
+    await client.db(process.env.DB_NAME).collection('win-loss-statistics').updateOne({}, newValues)
+
+    return res.sendStatus(200)
+  })
+  .get('/WinLossStatistics/get', async (req, res) => {
+    const result = await client.db(process.env.DB_NAME).collection('letter-guess-statistics').findOne({})
+
+    res.send(JSON.stringify(result))
   })
   .get('*', (req, res) => res.sendFile(path.join(__dirname, '/front-end/build/index.html')))
   .listen(PORT, () => console.log(`Listening on ${PORT}`))

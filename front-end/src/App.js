@@ -4,13 +4,16 @@ import GameBoard from './components/GameBoard'
 import StatisticsBoard from './components/StatisticsBoard'
 import LetterStatistics from './utilities/LetterStatistics'
 import PuzzleInput from './utilities/PuzzleInput'
+import WinLossStatistics from './utilities/WinLossStatistics'
 
 export default class App extends Component {
   fetchLetterStatistics = new LetterStatistics()
   fetchPuzzleInput = new PuzzleInput()
+  fetchWinLossStatistics = new WinLossStatistics()
   state = {
     activeTab: 'game',
     letterStatistics: {},
+    winLossStatistics: {},
     solution: ''
   }
 
@@ -24,6 +27,7 @@ export default class App extends Component {
   async componentDidMount() {
     this.setState({
       letterStatistics: await this.fetchLetterStatistics.get(),
+      winLossStatistics: await this.fetchWinLossStatistics.get(),
       solution: await this.fetchPuzzleInput.get()
     })
   }
@@ -33,6 +37,7 @@ export default class App extends Component {
 
     if (element.name === 'stats') {
       nextState.letterStatistics = await this.fetchLetterStatistics.get()
+      nextState.letterStatistics = await this.fetchWinLossStatistics.get()
     }
 
     this.setState(nextState)
@@ -74,6 +79,7 @@ export default class App extends Component {
           ? {}
           : disabledStyling}
         letterStatistics={this.state.letterStatistics}
+        winLossStatistics={this.state.winLossStatistics}
       />
     </div>
   }

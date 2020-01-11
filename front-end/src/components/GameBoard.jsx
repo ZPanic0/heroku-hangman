@@ -6,9 +6,11 @@ import InputDashboard from './InputDashboard'
 import GameOver from './GameOver'
 import maskText from '../utilities/maskText'
 import LetterStatistics from '../utilities/LetterStatistics'
+import WinLossStatistics from '../utilities/WinLossStatistics'
 
 export default class App extends Component {
   letterStatistics = new LetterStatistics()
+  winLossStatistics = new WinLossStatistics()
   state = {
     guessedCharacters: [],
     wrongCount: 0,
@@ -47,6 +49,14 @@ export default class App extends Component {
         nextState.wrongCount = prevState.wrongCount + 1
 
         nextState.gameOver = nextState.wrongCount === 6
+      }
+
+      if (nextState.gameOver) {
+        this.winLossStatistics.notify(false)
+      }
+
+      if (nextState.playerWon) {
+        this.winLossStatistics.notify(true)
       }
 
       return nextState
