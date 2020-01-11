@@ -3,8 +3,7 @@ import { Statistic, Segment, Grid } from 'semantic-ui-react'
 
 export default class LetterDisplay extends Component {
     render() {
-        //Adding unrendered Statistic to avoid styling issue with first element of a statistic group
-        const rows = [<Statistic key='unrendered' style={{ display: 'none' }} />]
+        const rows = []
         let sum = 0;
 
         for (const [key, val] of Object.entries(this.props.statistics)) {

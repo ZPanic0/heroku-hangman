@@ -2,14 +2,10 @@ import React, { Component } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
 import GameBoard from './components/GameBoard'
 import StatisticsBoard from './components/StatisticsBoard'
-import LetterStatistics from './utilities/LetterStatistics'
 import PuzzleInput from './utilities/PuzzleInput'
-import WinLossStatistics from './utilities/WinLossStatistics'
 
 export default class App extends Component {
-  fetchLetterStatistics = new LetterStatistics()
   fetchPuzzleInput = new PuzzleInput()
-  fetchWinLossStatistics = new WinLossStatistics()
   state = {
     activeTab: 'game',
     letterStatistics: {},
@@ -26,19 +22,12 @@ export default class App extends Component {
 
   async componentDidMount() {
     this.setState({
-      letterStatistics: await this.fetchLetterStatistics.get(),
-      winLossStatistics: await this.fetchWinLossStatistics.get(),
       solution: await this.fetchPuzzleInput.get()
     })
   }
 
   async setActiveTab(event, element) {
     const nextState = { activeTab: element.name }
-
-    if (element.name === 'stats') {
-      nextState.letterStatistics = await this.fetchLetterStatistics.get()
-      nextState.letterStatistics = await this.fetchWinLossStatistics.get()
-    }
 
     this.setState(nextState)
   }
@@ -74,13 +63,8 @@ export default class App extends Component {
         solution={this.state.solution}
         onReset={this.onReset}
       />
-      <StatisticsBoard
-        style={this.state.activeTab === 'stats'
-          ? {}
-          : disabledStyling}
-        letterStatistics={this.state.letterStatistics}
-        winLossStatistics={this.state.winLossStatistics}
-      />
+      {this.state.activeTab === 'stats' &&
+        <StatisticsBoard />}
     </div>
   }
 }
