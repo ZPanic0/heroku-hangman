@@ -55,11 +55,11 @@ export default class App extends Component {
       }
 
       if (nextState.gameOver) {
-        this.winLossStatistics.notify(false)
+        this.winLossStatistics.notify(false, this.props.playerName)
       }
 
       if (nextState.playerWon) {
-        this.winLossStatistics.notify(true)
+        this.winLossStatistics.notify(true, this.props.playerName)
       }
 
       return nextState

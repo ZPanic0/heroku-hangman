@@ -62,6 +62,7 @@ export default class App extends Component {
           ? {}
           : { display: 'none' }}
         solution={this.state.solution}
+        playerName={this.state.playerName}
         onReset={this.onReset}
         gameBoardEnabled={!this.state.gameBoardLocks}
       />

@@ -1,6 +1,8 @@
 export default class WinLossStatistics {
-    async notify(won) {
-        return await fetch(`/WinLossStatistics/update?won=${won}`)
+    async notify(won, playerName) {
+        const nameArgument = playerName && playerName !== 'guest' ? `&name=${playerName}` : ''
+
+        return await fetch(`/WinLossStatistics/update?won=${won}${nameArgument}`)
     }
 
     async get() {
