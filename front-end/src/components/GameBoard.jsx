@@ -23,14 +23,17 @@ export default class App extends Component {
 
     this.onLetterClick = this.onLetterClick.bind(this)
     this.onResetClick = this.onResetClick.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', ({ key }) => {
-      if (!'abcdefghijklmnopqrstuvwxyz'.includes(key)) return
+    document.addEventListener('keydown', this.onKeyDown)
+  }
 
+  onKeyDown({ key }) {
+    if (this.props.gameBoardEnabled && 'abcdefghijklmnopqrstuvwxyz'.includes(key)) {
       this.onLetterClick(key.toUpperCase())
-    })
+    }
   }
 
   onLetterClick(letter) {

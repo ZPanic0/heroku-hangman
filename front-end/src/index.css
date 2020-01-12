@@ -24,3 +24,7 @@
 .game-over span {
     margin-right: 10px;
 }
+
+.player-name .ui.label {
+    cursor: pointer;
+}
