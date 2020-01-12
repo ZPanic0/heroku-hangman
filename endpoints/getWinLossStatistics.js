@@ -4,7 +4,7 @@ async function getWinLossStatistics(client, request, response) {
         .collection('win-loss-statistics')
         .findOne({ name: { $exists: false } })
 
-    return response.send(JSON.stringify(queryResult))
+    return response.json(queryResult)
 }
 
 module.exports = getWinLossStatistics

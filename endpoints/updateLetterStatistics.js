@@ -8,7 +8,10 @@ async function updateLetterStatistics(client, request, response) {
     const newValues = { $inc: {} }
     newValues.$inc[request.query.letter] = 1
 
-    await client.db(process.env.DB_NAME).collection('letter-guess-statistics').updateOne({}, newValues)
+    await client
+        .db(process.env.DB_NAME)
+        .collection('letter-guess-statistics')
+        .updateOne({}, newValues)
 
     return response.sendStatus(200)
 }
