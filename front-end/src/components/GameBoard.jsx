@@ -71,7 +71,8 @@ export default class App extends Component {
     this.setState({
       guessedCharacters: [],
       wrongCount: 0,
-      gameOver: false
+      gameOver: false,
+      playerWon: false
     })
   }
 
