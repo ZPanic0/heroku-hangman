@@ -9,7 +9,7 @@ async function updateWinLossStatistics(client, request, response) {
     await client
         .db(process.env.DB_NAME)
         .collection('win-loss-statistics')
-        .updateOne({}, newValues)
+        .updateOne({ name: { $exists: false } }, newValues)
 
     if (request.query.name && request.query.name.length) {
         await client
