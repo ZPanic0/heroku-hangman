@@ -32,6 +32,16 @@ export default class Player extends Component {
             return
         }
 
+        if (key === 'Backspace') {
+            this.setState(prevState => {
+                if (prevState.enteredText.length > 0) {
+                    console.log(prevState)
+                    return { enteredText: prevState.enteredText.substring(0, prevState.enteredText.length - 1) }
+                }
+            })
+            return
+        }
+
         if (key === 'Enter') {
             this.props.updateName(this.state.enteredText)
 
