@@ -39,7 +39,6 @@ export default class TopWinDisplay extends Component {
     }
 
     render() {
-        console.log(this.state.statistics)
         return <Segment>
             <Dimmer inverted active={this.state.loading}>
                 <Loader>Loading</Loader>
