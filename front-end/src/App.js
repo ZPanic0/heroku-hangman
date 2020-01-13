@@ -67,7 +67,7 @@ export default class App extends Component {
         gameBoardEnabled={!this.state.gameBoardLocks}
       />
       {this.state.activeTab === 'stats' &&
-        <StatisticsBoard />}
+        <StatisticsBoard playerName={this.state.playerName} />}
     </div>
   }
 }

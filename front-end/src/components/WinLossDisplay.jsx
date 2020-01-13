@@ -1,26 +1,18 @@
 import React, { Component } from "react";
-import { Segment, Statistic, Grid } from "semantic-ui-react";
+import GlobalWinLossDisplay from "./GlobalWinLossDisplay";
+import PlayerWinLossDisplay from "./PlayerWinLossDisplay";
+import TopWinDisplay from "./TopWinDisplay";
 
 export default class WinLossDisplay extends Component {
     render() {
-        return <Segment>
-            <Grid textAlign='center' columns={2}>
-                <Grid.Row>
-                    <Grid.Column width={8}>
-                        <Statistic size='large'>
-                            <Statistic.Value>{this.props.statistics.won}</Statistic.Value>
-                            <Statistic.Label>Games Won (Globally)</Statistic.Label>
-                        </Statistic>
-
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Statistic size='large'>
-                            <Statistic.Value>{this.props.statistics.lost}</Statistic.Value>
-                            <Statistic.Label>Games Lost (Globally)</Statistic.Label>
-                        </Statistic>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </Segment>
+        return <div>
+            <GlobalWinLossDisplay />
+            <PlayerWinLossDisplay
+                key={this.props.playerName}
+                isGuest={this.props.playerName === 'guest'}
+                playerName={this.props.playerName}
+            />
+            <TopWinDisplay count={10} />
+        </div>
     }
 }

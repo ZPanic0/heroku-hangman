@@ -5,8 +5,19 @@ export default class WinLossStatistics {
         return await fetch(`/WinLossStatistics/update?won=${won}${nameArgument}`)
     }
 
-    async get() {
+    async getGlobal() {
         const result = await fetch(`/WinLossStatistics/get`)
+        return await result.json()
+    }
+
+    async getTop(count) {
+        const result = await fetch(`/WinLossStatistics/get/top?count=${count}`)
+        return await result.json()
+    }
+
+    async getPlayer(playerName) {
+        const result = await fetch(`/WinLossStatistics/get/player?name=${playerName}`)
+
         return await result.json()
     }
 }
