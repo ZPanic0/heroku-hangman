@@ -6,6 +6,7 @@ import GameMenu from './components/GameMenu'
 
 export default class App extends Component {
   fetchPuzzleInput = new PuzzleInput()
+  hasLocalStorage = localStorage && localStorage.getItem && localStorage.setItem
   state = {
     activeTab: 'game',
     letterStatistics: {},
@@ -18,10 +19,22 @@ export default class App extends Component {
   constructor(props) {
     super(props)
 
+    this.checkStorage()
+
     this.setActiveTab = this.setActiveTab.bind(this)
     this.onReset = this.onReset.bind(this)
     this.updateName = this.updateName.bind(this)
     this.updateGameBoardLocks = this.updateGameBoardLocks.bind(this)
+  }
+
+  checkStorage() {
+    if (this.hasLocalStorage) {
+      const storage = localStorage.getItem('heroku-hangman')
+
+      if (storage) {
+        Object.assign(this.state, JSON.parse(storage))
+      }
+    }
   }
 
   async componentDidMount() {
@@ -39,6 +52,10 @@ export default class App extends Component {
   }
 
   updateName(newName) {
+    if (this.hasLocalStorage) {
+      localStorage.setItem('heroku-hangman', JSON.stringify({ playerName: newName }))
+    }
+
     this.setState({ playerName: newName })
   }
 
